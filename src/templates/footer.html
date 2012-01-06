@@ -1,0 +1,34 @@
+<div class="footer_box">
+	{% block footer_left %}
+		<div class="title">電装天使ヴァルフォースとは？</div>
+		<div class="body">
+			ヴァルフォースは、一対一の対戦型3Dアクションシューティングゲームです。
+			インターネット回線を利用した通信対戦機能を搭載しており世界中の相手と対戦を楽しむことができます。
+		</div>
+	{% endblock %}
+</div>
+<div class="footer_box">
+	{% block footer_middle %}
+		<div class="title">アップローダについて</div>
+		<div class="body">
+			ヴァルフォースは対戦した試合をリプレイとして記録できます。
+			リプレイファイルをやり取りし、他の人のプレイを見ることが出来ます。
+			当サイトはリプレイを探しやすく、やり取りしやすくするためのツールです。
+		</div>
+	{% endblock %}
+</div>
+<div class="footer_box">
+	{% block footer_right %}
+		<div class="title">使い方など</div>
+		<div class="body">
+			リプレイを探している人は
+			{{ link_to('検索', url('search')) }}、
+			リプレイを登録したい人は
+			{{ link_to('アップロード', url('upload')) }}。
+			対戦したい人は
+			<a href="http://yumesoft.net/valforce/">公式サイトTOP</a>
+			のサーバリストを。
+			チャットはIRC(2ch)の #valforce チャンネルへ。
+		</div>
+	{% endblock %}
+</div>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta name="language" content="ja" />
+		<meta name="description" content="{% block meta_description %}電装天使ヴァルフォースのリプレイアップローダ{% endblock %}" />
+		<meta name="keywords" content="ヴァルフォース,電装天使ヴァルフォース,リプレイ,アップローダ" />
+		<meta name="robots" content="{% block meta_robots %}index, follow{% endblock %}" />
+		<title>{% block title %}TOP{% endblock %} | ヴァルフォース リプレイ アップローダ</title>
+		<link rel="stylesheet" href="/static/css/main.css?{{ css_version|d(0)|e }}" type="text/css" media="screen" charset="utf-8" />
+		<link rel="shortcut icon" href="/static/favicon.ico" />
+	</head>
+	<body>
+		<div id="container">
+			<div id="header">
+				<div id="header_content" class="clearfix">
+					<div id="header_logo">
+						<a href="{{ url('/') }}">VALFORCE</a>
+					</div>
+					<h1>{% block h_top %}電装天使ヴァルフォースのリプレイ アップローダ{% endblock %}</h1>
+					<div id="header_link" class="clearfix">
+						<a href="http://wikiwiki.jp/valforce/" class="external">Wiki</a>
+						<a href="http://yumesoft.net/valforce/" class="external">公式サイト</a>
+						{{ link_to('アップロード', url('upload'), class='upload') }}
+						{{ link_to('検索', url('search'), class='search') }}
+						{{ link_to('TOP', url('/'), class='folder') }}
+					</div>
+				</div>
+			</div>
+			<div id="content_wrapper" class="clearfix">
+				<div id="topic_path" class="clearfix">{% block topic_path %}{% endblock %}</div>
+				<div id="content">{% block content %}{% endblock %}</div>
+			</div>
+			<div id="push_content"></div>
+		</div>
+		<div id="footer" class="clearfix">
+			<div id="footer_content">
+				<div id="footer_menu" class="clearfix">{% block footer %}{% include "footer.html" %}{% endblock %}</div>
+				<address>Copyrights [valforce.net] ALL RIGHTS RESERVED</address>
+			</div>
+		</div>
+
+{% include "js_common.html" %}
+{% block scripts %}{% endblock %}
+
+	</body>
+</html>

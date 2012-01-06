@@ -1,0 +1,32 @@
+<style>
+.match_list th {
+	font-size:86%;
+	text-align:center;
+}
+</style>
+<table width="100%">
+	<tr>
+		<th width="20%">日時</th>
+		<th width="24%">1P</th>
+		<th width="24%">2P</th>
+		<th width="25%">ステージ</th>
+		<th width="9%">ファイル</th>
+	</tr>
+	{% for match in matches.result %}
+		<tr>
+			<td class="date">{{ match.created_at|date }}</td>
+			<td class="summary {{ 'winner' if match.is_win_home else 'loser' }}">
+				{{ match.home }}
+				&nbsp;<span class="darygray">|</span>&nbsp;
+				{{ match.home_player }}
+			</td>
+			<td class="summary {{ 'winner' if match.is_win_away else 'loser' }}">
+				{{ match.away }}
+				&nbsp;<span class="darygray">|</span>&nbsp;
+				{{ match.away_player }}
+			</td>
+			<td class="stage">{{ match.stage }}</td>
+			<td class="download"><a href="{{ url('match_download', id=match.id) }}">&nbsp;</a></td>
+		</tr>
+	{% endfor %}
+</table>

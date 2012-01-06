@@ -1,0 +1,53 @@
+{% macro normal(limit, total, endpoint, url_params=None, paging=3) %}
+	{% set url_params = url_params or {} %}
+	{% set page = (request.args.get('page') or 1)|int %}
+	{% set item_start = (page - 1) * limit + 1 %}
+	{% set max_page = (total - 1) // limit + 1 %}
+	{% set item_end = total if item_start + limit >= total else item_start + limit - 1 %}
+	<div class="pagination clearfix">
+		<ul>
+		{% if 2 <= page %}
+			<li class="prev">
+				{% if 2 == page %}
+					{{ link_to('&larr; 前へ'|safe, url(endpoint, **url_params)) }}
+				{% else %}
+					{{ link_to('&larr; 前へ'|safe, url(endpoint, page=page - 1, **url_params)) }}
+				{% endif %}
+			</li>
+			<li>{{ link_to('1', url(endpoint, **url_params)) }}</li>
+		{% else %}
+			<li class="prev disabled"><a href="#">&larr; 前へ</a></li>
+		{% endif %}
+		
+		{% for i in range(paging, 0, -1) if 1 < (page - i) %}
+			{% if loop.first and page - paging >= 3 %}
+				<li class="disabled"><a href="#">･･･</a></li>
+			{% endif %}
+			<li>{{ link_to(page - i, url(endpoint, page=page - i, **url_params)) }}</li>
+		{% endfor %}
+
+		<li class="active"><a href="#">{{ page }}</a></li>
+
+		{% for i in range(1, paging + 1) if (page + i) < max_page %}
+			<li>{{ link_to(page + i, url(endpoint, page=page+i, **url_params)) }}</li>
+			{% if loop.last and page <= max_page - 5 %}
+				<li class="disabled"><a href="#">･･･</a></li>
+			{% endif %}
+		{% endfor %}
+
+		{% if max_page and page < max_page %}
+			<li>{{ link_to(max_page, url(endpoint, page=max_page, **url_params)) }}</li>
+			<li class="next">
+				{{ link_to('次へ &rarr;'|safe, url(endpoint, page=page + 1, **url_params)) }}
+			</li>
+		{% else %}
+			<li class="next disabled"><a href="#">次へ &rarr;</a></li>
+		{% endif %}
+		</ul>
+		{% if total %}
+			<div class="pagination_info">
+				{{ total }}件中　{{ item_start }} ～ {{ item_end }}件目を表示
+			</div>
+		{% endif %}
+	</div>
+{% endmacro %}

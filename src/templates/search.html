@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% import "macro_pager.html" as macro_pager with context %}
+
+{% block content %}
+
+{% if matches and matches.has_result %}
+	<div class="match_list" style="margin:0 0 15px 0;">
+		<h2>
+			リプレイ
+		</h2>
+		{% include "part_match.html" %}
+	</div>
+	{{ macro_pager.normal(
+		limit=matches.limit,
+		total=matches.total,
+		endpoint='search',
+		url_params=params,
+		paging=5,
+	) }}
+{% endif %}
+
+<div>
+	<h3>検索</h3>
+	<form method="get">
+		<table width="50%">
+			<tr>
+				<th>キャラ</th>
+				<th>勝敗</th>
+				<th>ステージ</th>
+				<th>&nbsp;</th>
+			</tr>
+			<tr>
+				<td>
+					<select name="char">
+						<option value=""></option>
+						{% for k, v in model.Match.CHARACTERS %}
+							<option value="{{ k }}" {{ 'selected="selected"' if k == request.args.char else '' }}>{{ v }}</option>
+						{% endfor %}
+					</select>
+				</td>
+				<td>
+					<select name="win_lose">
+						<option value=""></option>
+						<option value="1" {{ 'selected="selected"' if '1' == request.args.win_lose else '' }}>勝利</option>
+						<option value="2" {{ 'selected="selected"' if '2' == request.args.win_lose else '' }}>敗北</option>
+					</select>
+				</td>
+				<td>
+					<select name="stage">
+						<option value=""></option>
+						{% for v in model.Match.STAGES %}
+							<option value="{{ v }}" {{ 'selected="selected"' if v == request.args.stage else '' }}>{{ v }}</option>
+						{% endfor %}
+					</select>
+				</td>
+				<td>
+					<input type="submit" value="検索" />
+				</td>
+			</tr>
+		</table>
+	</form>
+	<div>
+		※条件を絞り込んでリプレイを探すことが出来ます<br />
+		※必要ない条件は選択しないで結構です<br />
+		※すべての条件を空欄にすると、すべてのリプレイを表示します<br />
+	</div>
+</div>
+
+{% endblock %}

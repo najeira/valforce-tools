@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if matches and matches.has_result %}
+	<div class="match_list" style="margin:0 0 15px 0;">
+		<h2>
+			最近のリプレイ
+			{{ link_to('リプレイの検索', url('search'), class='right_link') }}
+		</h2>
+		{% include "part_match.html" %}
+	</div>
+{% endif %}
+
+<div class="clearfix">
+	<div id="announce_list">
+		<h3 class="information_icon">お知らせ・更新情報</h3>
+		<div>
+			<span class="date">2011/10/11</span>
+			<span class="text">同時にアップロードできるファイル数を1,000に変更(増加)</span>
+		</div>
+		<div>
+			<span class="date">2011/10/11</span>
+			<span class="text">検索結果のページにページ送り機能を追加</span>
+		</div>
+		<div>
+			<span class="date">2011/04/11</span>
+			<span class="text">サイトをオープン</span>
+		</div>
+	</div>
+	{% include "side.html" %}
+</div>
+
+{% endblock %}

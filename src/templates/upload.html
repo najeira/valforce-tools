@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}アップロード{% endblock %}
+
+{% block content %}
+
+<style>
+.uploadifyQueueItem {
+	font: 11px Verdana, Geneva, sans-serif;
+	background-color: #F5F5F5;
+	border: 3px solid #E5E5E5;
+	margin-top: 5px;
+	padding: 10px;
+	width: 300px;
+}
+.uploadifyQueueItem .cancel {
+	float: right;
+}
+.uploadifyProgress {
+	background-color: #FFFFFF;
+	border-top: 1px solid #808080;
+	border-left: 1px solid #808080;
+	border-right: 1px solid #C5C5C5;
+	border-bottom: 1px solid #C5C5C5;
+	margin-top: 10px;
+	width: 100%;
+}
+.uploadifyProgressBar {
+	background-color: #0099FF;
+}
+.notice {
+	padding:5px 10px;
+	margin:0 0 10px 0;
+	background:#FFFFD1;
+	border:solid 1px #F5E38F;
+}
+</style>
+
+<!--[if IE]>
+<div class="notice">
+	Internet Explorerは複数ファイルのアップロードに対応していません。<br />
+	<a href="http://www.google.co.jp/chrome/intl/ja/landing_ch.html">Google Chrome</a>、
+	<a href="http://mozilla.jp/firefox/">Firefox</a>、
+	<a href="http://jp.opera.com/">Opera</a>などのモダンブラウザを使いましょう！<br />
+</div>
+<![endif]-->
+
+<div>
+	※リプレイファイル(*.rep)をアップロードすることが出来ます<br />
+	※一度に1,000ファイルまでアップロード出来ます<br />
+	※アップロードできるのはバージョン2.03以降のファイルのみです<br />
+	※アップロード済のファイルと同じものは無視されます<br />
+	※対応していないファイルは無視されます<br />
+</div>
+
+<div>
+	<form id="upload_form" method="post">
+		<input type="file" name="Filedata" id="uploadify" /><br />
+		<button type="button" onclick="$('#uploadify').uploadifyUpload();">アップロード</button><br />
+	</form>
+	<div id="fileQueue"></div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#uploadify").uploadify({
+		'uploader': '/static/js/uploadify.swf', //アップローダswf
+		'cancelImg': '/static/img/cancel.png', //キャンセルボタンの画像
+		'script': '{{ url('upload') }}', //アップロード先URL
+		'fileDesc': 'リプレイファイル', //ファイル選択の説明
+		'fileExt': '*.rep', //ファイル選択のフィルタ
+		'multi': true, //ファイル選択での複数選択
+		//'auto': true, //ファイル選択後の自動アップロード開始
+		'queueID': 'fileQueue', //アップロードのキュー
+		'buttonText': 'Select Files', //ファイル選択のボタン
+		//'displayData': 'speed',
+		'queueSizeLimit': 1000, //一度にアップロードできる最大数
+		'simUploadLimit': 1, //アップロードの並行数
+		'onAllComplete': function(event, data){
+			alert('合計 ' + data.filesUploaded + ' ファイルをアップロードしました。');
+		}
+	});
+	
+	//フォームでエンターを押してもsubmitしないように抑制
+	$("#upload_form").keypress(function(e){
+		var charCode = e.charCode ? e.charCode : (e.which ? e.which : e.keyCode);
+		return !(Number(charCode) == 13 || Number(charCode) == 3);
+	});
+});
+</script>
+{% endblock %}
